@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Staycation Request</title>
+<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Mrs+Saint+Delafield&display=swap">
+<style>
+:root{color-scheme:light;--desk:#f3eee3;--paper:#f3eee3;--ink:#111111;--soft:#5a554b;--rule:#cfc6b3;--stamp:#d9541e;--btn:#111111;--btnink:#f3eee3;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+
+:root[data-theme="dark"]{--desk:#0b0b0b;--paper:#1a1a1a;--ink:#f3eee3;--soft:#b4ad9f;--rule:#3a3631;--stamp:#ee7440;--btn:#f3eee3;--btnink:#111111;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.65}
+.sheet{max-width:680px;margin:0 auto;padding:28px 24px 40px;background:var(--paper)}
+@media(min-width:720px){body{padding:32px 0}.sheet{padding:48px 56px;box-shadow:0 2px 18px rgba(0,0,0,.18)}}
+.dept{border-bottom:3px double var(--ink);margin-bottom:18px}
+.dept h1{font-family:"Old Standard TT",Georgia,serif;font-size:1.5rem;line-height:1.25;margin:0;letter-spacing:.02em}
+.meta{font-size:.92rem;border-left:3px solid var(--stamp);padding-left:12px;margin:0 0 20px}
+.meta b{font-weight:600}
+h2{position:relative;color:var(--stamp);font-family:"Old Standard TT",Georgia,serif;font-size:1.08rem;margin:30px 0 8px;padding-bottom:4px}
+h2::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--rule);transform-origin:left;transition:transform 1.1s ease}
+.js h2:not(.in)::after{transform:scaleX(0)}
+.reply h2::after{display:none}
+p{margin:0 0 12px}
+ol,ul{margin:0 0 12px;padding-left:22px}
+li{margin-bottom:5px}
+.truth{color:var(--stamp);font-size:1.15rem;font-weight:600;margin:18px 0 10px}
+.sign{margin-top:26px}
+.sign .who{font-family:"Old Standard TT",Georgia,serif;font-weight:700;margin:0}
+.reply{margin-top:34px;border:2px solid var(--ink);padding:20px;text-align:center}
+.reply h2{border:0;margin:0 0 4px}
+.reply p{color:var(--soft);font-size:.95rem}
+.btns{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+@media(min-width:520px){.btns{flex-direction:row;flex-wrap:wrap;justify-content:center}}
+.btn{display:block;background:var(--btn);color:var(--btnink);text-decoration:none;font:600 1.05rem "Source Serif 4",Georgia,serif;padding:14px 22px;border-radius:4px;border:0;cursor:pointer;transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn.loud{background:var(--stamp);color:#fff}
+.btn:focus-visible{outline:3px solid var(--stamp);outline-offset:3px}
+.btn:disabled{opacity:.55;cursor:default}
+.sent{display:none;margin-top:16px;font-weight:600}
+canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.intro{position:fixed;inset:0;z-index:100;background:var(--desk);display:none;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .7s,transform .7s}
+.js .intro{display:flex}
+.intro.gone{opacity:0;transform:scale(1.06);pointer-events:none}
+body.locked{overflow:hidden}
+.hint{margin:0;color:var(--soft);font-size:.95rem}
+.env{position:relative;width:min(78vw,320px);aspect-ratio:3/2;padding:0;border:0;border-radius:4px;cursor:pointer;background:color-mix(in srgb,var(--ink) 16%,var(--paper));box-shadow:0 10px 30px rgba(0,0,0,.22)}
+.env::after{content:"";position:absolute;inset:0;z-index:2;border-radius:4px;background:color-mix(in srgb,var(--ink) 7%,var(--paper));clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%)}
+.env:focus-visible{outline:3px solid var(--stamp);outline-offset:6px}
+.flap{position:absolute;left:0;top:0;width:100%;height:55%;z-index:3;background:color-mix(in srgb,var(--ink) 11%,var(--paper));clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .7s ease,z-index 0s .35s}
+.open .flap{transform:rotateX(180deg);z-index:0}
+.letter{position:absolute;left:9%;right:9%;top:10%;bottom:14%;z-index:1;background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:12px 14px;font:700 1rem "Old Standard TT",Georgia,serif;color:var(--ink);text-align:left;transition:transform .8s cubic-bezier(.3,.7,.2,1) .5s}
+.open .letter{transform:translateY(-62%)}
+.seal{position:absolute;left:50%;top:55%;z-index:4;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:var(--stamp);color:#fff;display:grid;place-items:center;font:700 1.5rem "Old Standard TT",Georgia,serif;box-shadow:0 3px 8px rgba(0,0,0,.3);animation:pulse 2.2s ease-in-out infinite;transition:opacity .2s,scale .2s}
+.open .seal{opacity:0;scale:.2;animation:none}
+@keyframes pulse{50%{scale:1.1}}
+@keyframes rise{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}
+@keyframes ink{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:blur(0)}}
+.js .sheet{opacity:0}
+.opened .sheet{opacity:1;transition:opacity .9s .4s}
+.truth .w{display:inline-block}
+.js .truth:not(.in) .w{opacity:0}
+.truth.in .w{animation:ink .7s both;animation-delay:calc(var(--d)*150ms)}
+.js .reply:not(.in) .btn{opacity:0}
+.reply.in .btn{animation:rise .55s both;animation-delay:calc(var(--i,0)*110ms)}
+.btns .btn:nth-child(2){--i:1}.btns .btn:nth-child(3){--i:2}.btns .btn:nth-child(4){--i:3}
+.sign .sig{color:var(--stamp);display:inline-block;font-family:"Mrs Saint Delafield","Segoe Script","Snell Roundhand",cursive;font-weight:400;font-size:3.4rem;line-height:1.1;padding:0 .4em .1em 0}
+.js .sig{-webkit-mask-image:linear-gradient(90deg,#000 40%,transparent 60%);mask-image:linear-gradient(90deg,#000 40%,transparent 60%);-webkit-mask-size:250% 100%;mask-size:250% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:100% 0;mask-position:100% 0;transition:-webkit-mask-position 2.4s ease-in-out,mask-position 2.4s ease-in-out}
+.js .sig.in{-webkit-mask-position:0 0;mask-position:0 0}
+.btn.maybe{flex-basis:100%;background:none;color:color-mix(in srgb,var(--ink) 25%,transparent);font-size:.8rem;font-weight:400;padding:6px;transition:color .3s}
+.btn.maybe:hover,.btn.maybe:focus-visible{color:var(--ink)}
+.sent{animation:rise .5s both}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="intro" id="intro">
+<button class="env" id="env" type="button" aria-label="Open the letter">
+<span class="letter">Dear Princess,</span>
+<span class="flap"></span>
+<span class="seal">♥</span>
+</button>
+<p class="hint">A letter for you</p>
+</div>
+<main class="sheet">
+
+<header class="dept">
+
+</header>
+
+<div class="meta">
+<div><b>Reference No.:</b> DVS/RA/2026/001</div>
+<div><b>Classification:</b> Important. For the Princess.</div>
+<div><b>Subject:</b> Formal request for approval of a post-incourse/Christmas staycation</div>
+</div>
+
+<p>Dear Princess,</p>
+<p>First and foremost, Phantom wishes to acknowledge the completion of the Princess’s ongoing academic engagements and to congratulate her on reaching the end of her test period. He firmly believes that the examinations went well and that she is finally approaching a period in which academic responsibilities may be temporarily placed on administrative hold.</p>
+<p>Following extensive internal deliberation, careful consideration of the events of the outgoing year, and a thorough assessment of recreational needs, Phantom has deemed it necessary to submit the following proposal for the Princess’s kind consideration.</p>
+
+<h2>Article I: Purpose of Application</h2>
+<p>This correspondence is a formal request for the Princess’s approval and participation in a proposed post-incourse/Christmas staycation, to be organised at a location already identified and secured by Phantom.</p>
+<p>Phantom considers this arrangement a necessary intervention in the interest of relaxation, companionship, emotional replenishment and the general preservation of romantic relations.</p>
+
+<h2>Article II: Justification and Grounds for Approval</h2>
+<p>It is recognised that the outgoing year has been nothing short of peculiar. It has presented its fair share of unexpected developments, academic demands and other experiences.</p>
+<p>It is therefore Phantom’s position that concluding such a year without a proper vacation would constitute a rather unfortunate administrative oversight.</p>
+<p>The proposed staycation is intended to provide:</p>
+<ol>
+<li>A well-deserved opportunity to rest, recover and temporarily disengage from the demands of everyday life.</li>
+<li>An uninterrupted period of companionship, affection and quality time.</li>
+<li>An opportunity to create beautiful memories, engage in spontaneous activities and enjoy each other’s company without distractions.</li>
+<li>A much-needed change of environment and a temporary suspension of the seriousness of life.</li>
+</ol>
+<p>Phantom further submits that there is no better way to conclude the year than by spending some meaningful time together with the Princess.</p>
+
+<h2>Article III: Proposed Activities and Recreational Programme</h2>
+<p>Subject to the Princess’s approval, the following activities are proposed for the duration of the staycation:</p>
+<ul>
+<li>Adequate sleeping and resting arrangements, with no unnecessary disturbances.</li>
+<li>Eating, and occasionally making questionable decisions about what to eat next.</li>
+<li>Watching movies, watching reels, having conversations and generally enjoying each other’s presence.</li>
+<li>Random laughter, videos, unnecessary teasing and other activities that cannot be adequately documented in an official report.</li>
+<li>Evening and nighttime strolls, with provisions made for purchasing desserts on the way back.</li>
+</ul>
+
+<h2>Article IV: Special Provision, the Perfect Excuse</h2>
+<p>Phantom wishes to formally notify the Princess that an appropriate excuse has already been secured to facilitate her attendance.</p>
+<p>This provision has been carefully considered and is expected to answer any reasonable enquiries that may arise concerning the proposed trip.</p>
+<p>Further details shall be communicated through the appropriate private channels when necessary.</p>
+<p>The Princess is therefore assured that this matter has not been approached without adequate preparation.</p>
+
+<h2>Article V: Terms, Conditions and General Understanding</h2>
+<p>For the avoidance of doubt, the following provisions are hereby established:</p>
+<ol>
+<li>This application is a request for consideration and not in any way an order.</li>
+<li>The proposed arrangements shall be subject to mutual agreement.</li>
+<li>No academic obligation, personal responsibility or legitimate commitment shall be disregarded in the process.</li>
+<li>The primary objective remains spending quality time together, making memories and enjoying a much-needed break.</li>
+<li>The Princess reserves the right to recommend an extension of the staycation should the circumstances prove particularly favourable.</li>
+</ol>
+
+<h2>Article VI: Final Appeal and Request for Approval</h2>
+<p>Having presented the foregoing justifications and supporting arguments, Phantom sincerely hopes that this application receives favourable consideration.</p>
+<p>Phantom honestly believes that this would be a beautiful way to spend part of the Christmas season, reconnect, unwind and give themselves something genuinely lovely to remember about this year.</p>
+<p>Beyond the formal language and administrative arrangements, the truth is simple:</p>
+<p class="truth">I want to spend this time with you, please.</p>
+<p>I want the random conversations, the laughter, the movies, the night talks, the little moments and all the memories that will come with having you around.</p>
+<p>Phantom would therefore appreciate the Princess’s favourable response and, most importantly, her approval to proceed with the proposed arrangements.</p>
+<p>Thank you for your anticipated cooperation and consideration. Thank you for your attention to this serious matter.</p>
+
+<div class="sign">
+<p>Yours, in all things!</p>
+<p class="who sig">Phantom</p>
+</div>
+
+<section class="reply" aria-labelledby="rh">
+<h2 id="rh">Response of the Princess</h2>
+<p>Kindly select one. Your answer goes straight to the Office.</p>
+<div class="btns">
+<button type="button" class="btn" id="yes" data-c="yes">Yes</button>
+<button type="button" class="btn loud" id="loud" data-c="loud">Yes (but louder)</button>
+<button type="button" class="btn" id="tears" data-c="tears">Yes with tears</button>
+<button type="button" class="btn" id="nono" data-c="nono">Yes because I can’t find no</button>
+<button type="button" class="btn maybe" id="maybe" data-c="maybe">maybe</button>
+</div>
+<p class="sent" id="sent" role="status">Response received. The Office is thrilled.</p>
+</section>
+</main>
+
+<script>
+(function(){
+var c=document.getElementById('fx'),x=c.getContext('2d'),P=[],run=false;
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function size(){c.width=innerWidth;c.height=innerHeight}
+size();addEventListener('resize',size);
+var cols=['#d9541e','#111111','#f2b705','#e8845a','#8c8577','#3b82f6'];
+function burst(n){
+  if(reduce)return;
+  for(var i=0;i<n;i++){P.push({x:innerWidth/2,y:innerHeight*0.7,vx:(Math.random()-.5)*(n>100?18:12),vy:-Math.random()*(n>100?20:14)-4,s:4+Math.random()*6,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:cols[i%cols.length],l:120+Math.random()*60})}
+  if(!run){run=true;requestAnimationFrame(tick)}
+}
+function tick(){
+  x.clearRect(0,0,c.width,c.height);
+  P=P.filter(function(p){return p.l>0&&p.y<c.height+20});
+  P.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.45;p.vx*=.99;p.r+=p.vr;p.l--;
+    x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/3,p.s,p.s*.6);x.restore()});
+  if(P.length)requestAnimationFrame(tick);else run=false;
+}
+function done(){document.getElementById('sent').style.display='block'}
+var tr=document.querySelector('.truth');
+if(tr&&!reduce){tr.innerHTML=tr.textContent.split(' ').map(function(w,i){return '<span class="w" style="--d:'+i+'">'+w+'</span>'}).join(' ')}
+function show(){
+  document.documentElement.classList.add('opened');
+  var els=document.querySelectorAll('h2,.truth,.reply,.sig');
+  if('IntersectionObserver' in window&&!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.3});
+    els.forEach(function(e){io.observe(e)});
+  }else{els.forEach(function(e){e.classList.add('in')})}
+}
+var intro=document.getElementById('intro'),env=document.getElementById('env');
+if(reduce||!intro||!env){if(intro)intro.remove();show()}
+else{
+  document.body.classList.add('locked');
+  var opened=false;function openIt(){if(opened)return;opened=true;
+    env.classList.add('open');
+    setTimeout(function(){intro.classList.add('gone');document.body.classList.remove('locked');show()},1600);
+    setTimeout(function(){intro.remove()},2400);
+  }
+  env.addEventListener('click',openIt);setTimeout(openIt,1200);
+}
+var sentEl=document.getElementById('sent'),busy=false,answered=false;
+function say(t){sentEl.textContent=t;sentEl.style.display='block'}
+[['yes',70],['loud',220],['tears',90],['nono',90],['maybe',0]].forEach(function(b){
+  var el=document.getElementById(b[0]);
+  el.addEventListener('click',function(){
+    if(busy||answered)return;
+    busy=true;
+    var all=document.querySelectorAll('.btns .btn');
+    all.forEach(function(e){e.disabled=true});
+    fetch('/api/notify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({choice:el.getAttribute('data-c')})})
+      .then(function(r){if(!r.ok)throw new Error('bad');answered=true;burst(b[1]);say('Response received. The Office is thrilled.')})
+      .catch(function(){all.forEach(function(e){e.disabled=false});say('The message did not go through. Please tap once more.')})
+      .then(function(){busy=false});
+  });
+});
+})();
+</script>
+</body>
+</html>
